@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgresql-keycloak:
+    image: ${POSTGRES_IMAGE}
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+      - POSTGRESQL_ENABLE_TLS=no
+    volumes:
+      - postgresql_data:/bitnami/postgresql
+    restart: always 
+  
+  keycloak:
+    image: ${KEYCLOAK_IMAGE}
+    ports:
+      - ${KEYCLOAK_PORT}:8080
+    environment:
+      - KEYCLOAK_CREATE_ADMIN_USER=true
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+      - KEYCLOAK_DATABASE_NAME=${POSTGRESQL_DATABASE}
+      - KEYCLOAK_DATABASE_USER=${POSTGRESQL_USERNAME}
+      - KEYCLOAK_DATABASE_PASSWORD=${POSTGRESQL_PASSWORD}
+      - KEYCLOAK_DATABASE_PORT=5432
+      - KEYCLOAK_DATABASE_HOST=postgresql-keycloak
+      - KEYCLOAK_ENABLE_HEALTH_ENDPOINTS=true
+      - KEYCLOAK_ENABLE_STATISTICS=true
+    restart: unless-stopped   
+    depends_on:
+      - postgresql-keycloak
+
+volumes:
+  postgresql_data:
