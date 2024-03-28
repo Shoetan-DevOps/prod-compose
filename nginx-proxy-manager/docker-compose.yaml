@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  nginx-proxy-manager:
+    image: ${PROXYMGR_IMAGE}
+    restart: always
+    ports: 
+      - ${PROXYMGR_HTTP_PORT}:80
+      - ${PROXYMGR_PORT}:81
+      - ${PROXYMGR_HTTPS_PORT}:443
+    networks:
+      proxy:
+      keycloak:
+
+volumes:
+  keycloak_postgresql_data:
+
+networks:
+  proxy:
+  keycloak:
