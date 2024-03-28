@@ -9,6 +9,8 @@ services:
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
       - POSTGRESQL_ENABLE_TLS=no
       - POSTGRESQL_PORT_NUMBER=5433
+    ports:
+      - "5433:5432"
     volumes:
       - gitea_postgresql_data:/bitnami/postgresql
     restart: always 
