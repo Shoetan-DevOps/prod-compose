@@ -13,7 +13,7 @@ services:
       keycloak:
 
 volumes:
-  keycloak_postgresql_data:
+  proxy_mngr_data:
 
 networks:
   proxy:
