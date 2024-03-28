@@ -27,6 +27,7 @@ services:
       - KEYCLOAK_DATABASE_HOST=postgresql-keycloak
       - KEYCLOAK_ENABLE_HEALTH_ENDPOINTS=true
       - KEYCLOAK_ENABLE_STATISTICS=true
+      - KEYCLOAK_PRODUCTION=true
     restart: unless-stopped   
     depends_on:
       - postgresql-keycloak
