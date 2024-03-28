@@ -40,7 +40,3 @@ services:
 
 volumes:
   keycloak_postgresql_data:
-
-networks:
-  proxy:
-  keycloak:
