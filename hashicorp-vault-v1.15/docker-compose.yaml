@@ -17,7 +17,7 @@ services:
       - vault-data:/vault/data
       - ./vault/policy.json:/vault/policies/policy.json 
     networks:
-      keyvault:
+      - keyvault:
 
 volumes:
   vault-data:
