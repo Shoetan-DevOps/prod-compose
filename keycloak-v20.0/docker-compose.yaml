@@ -11,6 +11,10 @@ services:
     volumes:
       - keycloak_postgresql_data:/bitnami/postgresql
     restart: always 
+    networks:
+      keycloak
+    networks:
+      keycloak:
   
   keycloak:
     image: ${KEYCLOAK_IMAGE}
@@ -30,6 +34,9 @@ services:
     restart: unless-stopped   
     depends_on:
       - postgresql-keycloak
+    networks:
+      proxy:
+      keycloak:
 
 volumes:
   keycloak_postgresql_data:

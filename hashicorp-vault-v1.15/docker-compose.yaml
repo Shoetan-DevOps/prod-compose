@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     volumes:
       - vault-data:/vault/data 
+    networks:
+      keyvault:
 
 volumes:
   vault-data:
