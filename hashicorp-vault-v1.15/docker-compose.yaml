@@ -21,3 +21,6 @@ services:
 
 volumes:
   vault-data:
+
+networks:
+  keyvault
