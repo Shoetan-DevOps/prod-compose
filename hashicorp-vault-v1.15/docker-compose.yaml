@@ -4,12 +4,18 @@ services:
   vault:
     image: ${VAULT_IMAGE}
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: test
+      - VAULT_ADDR: "http://0.0.0.0:${VAULT_PORT}"
+      - VAULT_API_ADDR: "http://0.0.0.0:${VAULT_PORT}"
+      - VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
+      - VAULT_LOG_LEVEL: ${VAULT_LOG_LEVEL}
     ports:
       - ${VAULT_PORT}:8200
-    restart: unless-stopped
+    restart: always
+    cap_add:
+      - IPC_LOCK
     volumes:
-      - vault-data:/vault/data 
+      - vault-data:/vault/data
+      - ./vault/policy.json:/vault/policies/policy.json 
     networks:
       keyvault:
 
