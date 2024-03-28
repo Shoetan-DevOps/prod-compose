@@ -23,4 +23,4 @@ volumes:
   vault-data:
 
 networks:
-  keyvault
+  keyvault:
