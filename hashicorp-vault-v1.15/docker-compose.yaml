@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:     
+  vault:
+    image: ${VAULT_IMAGE}
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: test
+    ports:
+      - ${VAULT_PORT}:8200
+    restart: unless-stopped
+    volumes:
+      - vault-data:/vault/data 
+
+volumes:
+  vault-data:
