@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  postgresql-keycloak:
+    image: ${POSTGRES_IMAGE}
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+      - POSTGRESQL_ENABLE_TLS=no
+      - POSTGRESQL_PORT_NUMBER=5433
+    volumes:
+      - gitea_postgresql_data:/bitnami/postgresql
+    restart: always 
+    networks:
+      gitea:
+  
+  gitea:
+    image: ${GITEA_IMAGE}
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=postgresql-keycloak:5433
+      - GITEA__database__NAME=${GITEA__database__NAME}
+      - GITEA__database__USER=${GITEA__database__USER}
+      - GITEA__database__PASSWD=${GITEA__database__PASSWD}
+    ports:
+      - "3000:3000"
+      - "2222:2222"  
+    restart: always
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - postgresql-keycloak
+    networks:
+      - proxy
+      - gitea
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  gitea_postgresql_data:
+
+networks:
+  proxy:
+  gitea:
