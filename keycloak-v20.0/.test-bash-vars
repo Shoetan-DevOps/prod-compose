@@ -1,5 +1,0 @@
-#create sensitive vars for testing
-
-export kC_PSQL_PASSWORD="password"
-export KC_PASSWORD="password"
-export KC_SUBDOMAIN="keycloak"
