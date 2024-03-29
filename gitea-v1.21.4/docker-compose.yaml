@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  postgresql-keycloak:
+  postgresql-gitea:
     image: ${POSTGRES_IMAGE}
     environment:
       - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
@@ -22,13 +22,10 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__HOST=postgresql-keycloak:5433
+      - GITEA__database__HOST=postgresql-gitea:5433
       - GITEA__database__NAME=${POSTGRESQL_DATABASE}
       - GITEA__database__USER=${POSTGRESQL_USERNAME}
       - GITEA__database__PASSWD=${POSTGRESQL_USERNAME}
-    ports:
-      - "3000:3000"
-      - "2222:2222"  
     restart: always
     volumes:
       - ./gitea:/data
@@ -41,10 +38,19 @@ services:
       - gitea
     security_opt:
       - no-new-privileges:true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea-secure.entrypoints=https"
+      - "traefik.http.routers.gitea-secure.rule=Host(`${GITEA_DOMAIN}`)"
+      - "traefik.http.routers.gitea-secure.tls=true"
+      - "traefik.http.routers.gitea-secure.service=gitea@docker"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy"
 
 volumes:
   gitea_postgresql_data:
 
 networks:
-  proxy:
   gitea:
+  proxy:
+    external: true
