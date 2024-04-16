@@ -9,7 +9,7 @@ services:
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
       - POSTGRESQL_ENABLE_TLS=no
     volumes:
-      - keycloak_postgresql_data:/bitnami/postgresql
+      - keycloak-postgresql-data:/bitnami/postgresql
     restart: always 
     networks:
       keycloak:
@@ -37,8 +37,7 @@ services:
       keycloak:
 
 volumes:
-  keycloak_postgresql_data:
+  keycloak-postgresql-data:
 
 networks:
-  proxy:
   keycloak:

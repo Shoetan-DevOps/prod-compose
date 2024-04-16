@@ -1,3 +1,6 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
 api:
   dashboard: true
   debug: true

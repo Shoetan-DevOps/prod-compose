@@ -3,3 +3,5 @@ acme.json => perms 600
 # generate password
 sudo apt install apache2-utils -y
 echo $(htpasswd -nb "user" "password") | sed -e s/\\$/\\$\\$/g
+
+sudo docker network create proxy

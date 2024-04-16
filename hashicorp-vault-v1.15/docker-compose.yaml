@@ -4,11 +4,11 @@ services:
   vault:
     image: ${VAULT_IMAGE}
     environment:
-      - VAULT_ADDR="http://0.0.0.0:8200"
+      - VAULT_ADDR="http://0.0.0.0:${VAULT_PORT}"
       - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_DEV_ROOT_TOKEN_ID}
     ports:
       - ${VAULT_PORT}:8200
-    restart: always
+    restart: unless-stopped
     cap_add:
       - IPC_LOCK
     volumes:

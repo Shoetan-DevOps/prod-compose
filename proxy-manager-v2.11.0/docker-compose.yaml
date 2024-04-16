@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  nginxproxymanager:
+    image: ${NGINX_PM_IMAGE}
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - ${NGINX_PM__UI_PORT}:81
+      - 443:443'
+    volumes:
+      - nginxproxymanager-data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+volumes:
+  nginxproxymanager-data:
+
+networks:
+  proxy:

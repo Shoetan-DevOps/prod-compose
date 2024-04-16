@@ -18,4 +18,3 @@ volumes:
 
 networks:
   jenkins:
-  proxy:
