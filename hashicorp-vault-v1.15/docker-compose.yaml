@@ -7,7 +7,7 @@ services:
       - VAULT_ADDR="http://0.0.0.0:${VAULT_PORT}"
       - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_DEV_ROOT_TOKEN_ID}
     ports:
-      - ${VAULT_PORT}:8200
+      - '${VAULT_PORT}:8200'
     restart: unless-stopped
     cap_add:
       - IPC_LOCK
@@ -16,9 +16,12 @@ services:
       - ./vault/policy.json:/vault/policies/policy.json 
     networks:
       keyvault:
+      proxy:  
 
 volumes:
   vault-data:
 
 networks:
   keyvault:
+  proxy: 
+    external: true

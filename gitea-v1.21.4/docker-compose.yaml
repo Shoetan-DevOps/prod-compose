@@ -27,6 +27,9 @@ services:
       - GITEA__database__USER=${POSTGRESQL_USERNAME}
       - GITEA__database__PASSWD=${POSTGRESQL_USERNAME}
     restart: unless-stopped 
+    ports:
+      - '3000:3000'
+      - '2222:2222'
     volumes:
       - gitea-data:/data
       - /etc/timezone:/etc/timezone:ro
@@ -45,3 +48,5 @@ volumes:
 
 networks:
   gitea:
+  proxy: 
+    external: true

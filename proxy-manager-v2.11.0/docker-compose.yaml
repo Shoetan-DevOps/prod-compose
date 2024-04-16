@@ -5,15 +5,18 @@ services:
     image: ${NGINX_PM_IMAGE}
     restart: unless-stopped
     ports:
-      - 80:80
-      - ${NGINX_PM__UI_PORT}:81
-      - 443:443'
+      - '80:80'
+      - '${NGINX_PM__UI_PORT}:81'
+      - '443:443'
     volumes:
       - nginxproxymanager-data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      proxy:
 
 volumes:
   nginxproxymanager-data:
 
 networks:
-  proxy:
+  proxy: 
+    external: true 

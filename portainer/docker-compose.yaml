@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  portainer:
+    image: ${PORTAINER_IMAGE}
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    ports:
+      - '${PORTAINER_PORT}:9000'
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"
+    restart: unless-stopped
+    networks:
+      portainer:
+      proxy:
+
+volumes:
+  portainer_data:
+
+networks:
+  portainer:
+  proxy: 
+    external: true

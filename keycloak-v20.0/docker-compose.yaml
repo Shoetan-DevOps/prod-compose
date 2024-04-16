@@ -17,7 +17,7 @@ services:
   keycloak:
     image: ${KEYCLOAK_IMAGE}
     ports:
-      - ${KEYCLOAK_PORT}:8080
+      - '${KEYCLOAK_PORT}:8080'
     environment:
       - KEYCLOAK_CREATE_ADMIN_USER=true
       - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
@@ -33,7 +33,7 @@ services:
     depends_on:
       - postgresql-keycloak
     networks:
-      proxy:
+      proxy-manager:
       keycloak:
 
 volumes:
@@ -41,3 +41,5 @@ volumes:
 
 networks:
   keycloak:
+  proxy: 
+    external: true
