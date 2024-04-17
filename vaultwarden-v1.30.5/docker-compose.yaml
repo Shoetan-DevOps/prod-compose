@@ -6,7 +6,7 @@ services:
     environment:
       - SIGNUPS_ALLOWED=false
     volumes:
-      - '/home/ubuntu/docker/vaultwarden/:/data/'
+      - vaultwarden:/data/
     restart: unless-stopped
     ports:
       - '${VAULTWARDEN_PORT}:80'
@@ -16,7 +16,12 @@ services:
     security_opt:
       - no-new-privileges:true
 
+volumes:
+  vaultwarden:
+
 networks:
   vaultwarden:
   proxy:
     external: true
+
+# sudo rm -rf /home/ubuntu/docker/vaultwarden/
