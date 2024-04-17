@@ -3,6 +3,8 @@ version: "3.8"
 services:
   vaultwarden:
     image: ${VAULTWARDEN_IMAGE}
+    environment:
+      - SIGNUPS_ALLOWED=false
     volumes:
       - '/home/ubuntu/docker/vaultwarden/:/data/'
     restart: unless-stopped
