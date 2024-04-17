@@ -10,7 +10,7 @@ services:
       - POSTGRESQL_ENABLE_TLS=no
     volumes:
       - keycloak-postgresql-data:/bitnami/postgresql
-    restart: always 
+    restart: unless-stopped 
     networks:
       keycloak:
   
@@ -29,12 +29,12 @@ services:
       - KEYCLOAK_DATABASE_HOST=postgresql-keycloak
       - KEYCLOAK_ENABLE_HEALTH_ENDPOINTS=true
       - KEYCLOAK_ENABLE_STATISTICS=true
-    restart: unless-stopped   
+    restart: unless-stopped
     depends_on:
       - postgresql-keycloak
     networks:
-      proxy-manager:
       keycloak:
+      proxy:
 
 volumes:
   keycloak-postgresql-data:
