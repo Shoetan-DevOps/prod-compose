@@ -8,8 +8,6 @@ services:
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
       - POSTGRESQL_ENABLE_TLS=no
-    ports:
-      - "5433:5432"
     volumes:
       - gitea-postgresql-data:/bitnami/postgresql
     restart: unless-stopped 
@@ -21,19 +19,34 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
+      - APP_NAME=${GITEA_APP_NAME}
       - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__HOST=postgresql-gitea:5433
+      - GITEA__database__HOST=postgresql-gitea:5432
       - GITEA__database__NAME=${POSTGRESQL_DATABASE}
       - GITEA__database__USER=${POSTGRESQL_USERNAME}
-      - GITEA__database__PASSWD=${POSTGRESQL_USERNAME}
+      - GITEA__database__PASSWD=${POSTGRESQL_PASSWORD}
+      - GITEA__mailer__ENABLED=${GITEA_SMTP_ENABLED}
+      - GITEA__mailer__FROM=${GITEA_SMTP_FROM}
+      - GITEA__mailer__SMTP_PORT=${GITEA_SMTP_PORT}
+      - GITEA__mailer__PROTOCOL="smtp+starttls"
+      - GITEA__mailer__SMTP_ADDR=${GITEA_SMTP_HOST}
+      - GITEA__mailer__USER=${GITEA_SMTP_USER}
+      - GITEA__mailer__PASSWD=${GITEA_SMTP_PASSWORD}
+      - GITEA__server__DOMAIN=${GITEA_DOMAIN}
+      - GITEA__server__ROOT_URL=${GITEA_ROOT_URL}
+      - GITEA__service__REQUIRE_SIGNIN_VIEW=true 
+      - GITEA__service__DISABLE_REGISTRATION=true  #Only admins create acct
+      - GITEA__service__REGISTER_EMAIL_CONFIRM=true
+      - GITEA__service__DEFAULT_ALLOW_CREATE_ORGANIZATION=false
     restart: unless-stopped 
     ports:
       - '${GITEA_PORT}:3000'
-      - '2222:2222'
     volumes:
-      - gitea-data:/data
+      # - gitea-data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - gitea-data:/var/lib/gitea
+      - gitea-config:/etc/gitea
     depends_on:
       - postgresql-gitea
     networks:
@@ -45,6 +58,7 @@ services:
 volumes:
   gitea-postgresql-data:
   gitea-data:
+  gitea-config:
 
 networks:
   gitea:
