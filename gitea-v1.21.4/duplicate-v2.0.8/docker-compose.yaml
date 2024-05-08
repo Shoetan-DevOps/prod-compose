@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  duplicati:
+    image: ${DUPLICATI_IMAGE}
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/New_York
+      # (optional) - CLI_ARGS=
+    volumes:
+      - ./appdata/config:/config
+      - /docker-volume-backups:/backups
+      - /var/lib/docker/volumes/:/source/
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8222:8200
+    restart: unless-stopped
+    networks:
+      duplicati:
+      proxy:
+
+networks:
+  duplicati:
+  proxy: 
+    external: true 
